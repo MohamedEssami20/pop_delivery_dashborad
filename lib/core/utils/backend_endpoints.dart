@@ -5,4 +5,5 @@ abstract class BackendEndpoints {
   static const String burger = "burger";
   static const String dounut = "dounut";
   static const String iceCream = "iceCream";
+  static const String addProduct = "Products";
 }

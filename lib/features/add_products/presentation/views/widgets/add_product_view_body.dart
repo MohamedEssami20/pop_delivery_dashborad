@@ -6,7 +6,7 @@ import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 
 import '../../../../../core/utils/cusotm_text_field.dart';
 import '../../../../../core/utils/custom_button.dart';
-import '../../../domain/product_input_entity.dart';
+import '../../../domain/entities/product_input_entity.dart';
 import 'choose_product_type.dart';
 import 'image_field.dart';
 

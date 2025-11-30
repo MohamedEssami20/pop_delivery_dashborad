@@ -10,6 +10,8 @@ class ProductInputEntity {
   final bool? isFavourite;
   final File? imageFile;
   final List<File?>? productImages;
+  final String? baseImageUrl;
+  final List<String>? productImageUrls;
   final num calories;
   final DateTime? createdAt;
 
@@ -25,5 +27,7 @@ class ProductInputEntity {
     this.isFavourite = false,
     required this.calories,
     this.createdAt,
+    this.baseImageUrl,
+    this.productImageUrls,
   });
 }
