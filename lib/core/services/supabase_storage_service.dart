@@ -35,7 +35,7 @@ class SupabaseStorageService implements StorageService {
     String fileName = p.basenameWithoutExtension(file.path);
     String fileExetension = p.extension(file.path);
     String result = await _supabase.client.storage
-        .from("fruitsimages")
+        .from("poboimages")
         .upload(
           "$path/$fileName/$fileExetension",
           file,
@@ -50,7 +50,7 @@ class SupabaseStorageService implements StorageService {
     String fileName = p.basenameWithoutExtension(file.path);
     String fileExetension = p.extension(file.path);
     String result = await _supabase.client.storage
-        .from("fruitsimages")
+        .from("poboimages")
         .update(
           "$path/$fileName.$fileExetension",
           file,
@@ -65,7 +65,7 @@ class SupabaseStorageService implements StorageService {
   Future<void> deleteImage({required File file, required String path}) async {
     String fileName = p.basename(file.path);
     String fileExetension = p.extension(file.path);
-    await _supabase.client.storage.from("fruitsimages").remove([
+    await _supabase.client.storage.from("poboimages").remove([
       "$path/$fileName/$fileExetension",
     ]);
   }
