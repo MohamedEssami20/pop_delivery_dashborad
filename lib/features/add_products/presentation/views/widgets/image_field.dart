@@ -6,9 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ImageField extends StatefulWidget {
-  const ImageField({super.key, required this.onChanged, this.currentImage});
+  const ImageField(
+    this.width, {
+    super.key,
+    required this.onChanged,
+    this.currentImage,
+  });
   final ValueChanged<File?> onChanged;
   final String? currentImage;
+  final double? width;
   @override
   State<ImageField> createState() => _ImageFieldState();
 }
@@ -40,7 +46,7 @@ class _ImageFieldState extends State<ImageField> {
         child: Stack(
           children: [
             Container(
-              width: double.infinity,
+              width: widget.width ?? double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey, width: 1),
                 borderRadius: BorderRadius.circular(16),
@@ -48,11 +54,8 @@ class _ImageFieldState extends State<ImageField> {
               child: currentImage.isNotEmpty
                   ? Image.network(widget.currentImage!)
                   : fileImage != null
-                      ? Image.file(fileImage!)
-                      : const Icon(
-                          Icons.image_outlined,
-                          size: 250,
-                        ),
+                  ? Image.file(fileImage!)
+                  : Icon(Icons.image_outlined, size: widget.width ?? 250),
             ),
             IconButton(
               onPressed: () {
@@ -67,11 +70,7 @@ class _ImageFieldState extends State<ImageField> {
                 });
               },
               icon: fileImage != null || currentImage.isNotEmpty
-                  ? const Icon(
-                      Icons.delete_sharp,
-                      color: Colors.red,
-                      size: 30,
-                    )
+                  ? const Icon(Icons.delete_sharp, color: Colors.red, size: 30)
                   : const SizedBox(),
             ),
             Text("image name= ${getFileName(fileImage ?? File(currentImage))}"),
@@ -85,8 +84,9 @@ class _ImageFieldState extends State<ImageField> {
     isLoading = true;
     setState(() {});
     final ImagePicker imagePicker = ImagePicker();
-    final XFile? file =
-        await imagePicker.pickImage(source: ImageSource.gallery);
+    final XFile? file = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+    );
     fileImage = File(file!.path);
     widget.onChanged(fileImage);
     setState(() {

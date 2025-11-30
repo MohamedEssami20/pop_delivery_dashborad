@@ -23,6 +23,7 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
   late bool isOraganic = false;
   late int expeireationMonths, numberOfCalories, unitAmount;
   File? imageFile;
+  List<File> productImagesFiles = [];
   String productType = BackendEndpoints.offers;
   @override
   Widget build(BuildContext context) {
@@ -100,10 +101,33 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
             ),
             const SizedBox(height: 20),
             const SizedBox(height: 20),
+            Text("add product image", style: TextStyle(color: Colors.black)),
             ImageField(
+              null,
               onChanged: (value) {
                 imageFile = value;
               },
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "add product other images",
+              style: TextStyle(color: Colors.black),
+            ),
+            const SizedBox(height: 20),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                3,
+                (index) => Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: ImageField(
+                    250,
+                    onChanged: (value) {
+                      productImagesFiles.add(value!);
+                    },
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             CustomButton(
