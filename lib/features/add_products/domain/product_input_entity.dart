@@ -9,12 +9,12 @@ class ProductInputEntity {
   final num avrageRating;
   final bool? isFavourite;
   final File? imageFile;
-  final List<File>? productImages;
-  final String calories;
+  final List<File?>? productImages;
+  final num calories;
   final DateTime? createdAt;
 
-  ProductInputEntity(
-    this.productImages, {
+  ProductInputEntity({
+    this.productImages,
     required this.id,
     required this.name,
     required this.description,

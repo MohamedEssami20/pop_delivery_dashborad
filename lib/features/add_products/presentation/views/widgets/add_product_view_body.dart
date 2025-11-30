@@ -1,9 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:popo_delivery_dashboard/core/func/generate_product_id.dart';
 import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 
 import '../../../../../core/utils/cusotm_text_field.dart';
 import '../../../../../core/utils/custom_button.dart';
+import '../../../domain/product_input_entity.dart';
 import 'choose_product_type.dart';
 import 'image_field.dart';
 
@@ -17,14 +20,21 @@ class AddProductViewBody extends StatefulWidget {
 class _AddProductViewBodyState extends State<AddProductViewBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late String name, code, description;
+  late String name, description;
   late num price;
   late bool isFeatured = false;
   late bool isOraganic = false;
-  late int expeireationMonths, numberOfCalories, unitAmount;
+  late int numberOfCalories;
   File? imageFile;
-  List<File> productImagesFiles = [];
+  List<File?>? productImagesFiles;
   String productType = BackendEndpoints.offers;
+
+  @override
+  void initState() {
+    productImagesFiles = List.filled(3, null);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,6 +51,12 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
               },
               hintText: "product name",
               textInputType: TextInputType.text,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "product name can't be empty";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 20),
             ChosseProductType(
@@ -58,22 +74,12 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
               },
               hintText: "product price",
               textInputType: TextInputType.text,
-            ),
-            const SizedBox(height: 20),
-            CustomTextFormFiled(
-              onSaved: (value) {
-                code = value!.toLowerCase();
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "product price can't be empty";
+                }
+                return null;
               },
-              hintText: "product code",
-              textInputType: TextInputType.text,
-            ),
-            const SizedBox(height: 20),
-            CustomTextFormFiled(
-              onSaved: (value) {
-                expeireationMonths = int.parse(value!);
-              },
-              hintText: "expeireation Months",
-              textInputType: TextInputType.text,
             ),
             const SizedBox(height: 20),
             CustomTextFormFiled(
@@ -82,14 +88,12 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
               },
               hintText: "number Of Calories",
               textInputType: TextInputType.text,
-            ),
-            const SizedBox(height: 20),
-            CustomTextFormFiled(
-              onSaved: (value) {
-                unitAmount = int.parse(value!);
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "number Of Calories can't be empty";
+                }
+                return null;
               },
-              hintText: "unit Amount",
-              textInputType: TextInputType.text,
             ),
             const SizedBox(height: 20),
             CustomTextFormFiled(
@@ -98,6 +102,12 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
               },
               hintText: "product descrption",
               textInputType: TextInputType.text,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "product descrption can't be empty";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 20),
             const SizedBox(height: 20),
@@ -123,7 +133,9 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                   child: ImageField(
                     250,
                     onChanged: (value) {
-                      productImagesFiles.add(value!);
+                      setState(() {
+                        productImagesFiles![index] = value;
+                      });
                     },
                   ),
                 ),
@@ -132,32 +144,42 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
             const SizedBox(height: 20),
             CustomButton(
               onPressed: () async {
-                if (imageFile != null) {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  if (imageFile != null &&
+                      productImagesFiles!.isNotEmpty &&
+                      productImagesFiles!.length == 3) {
                     autovalidateMode = AutovalidateMode.disabled;
                     setState(() {});
-                    // AddProductInputEntity addProductInputEntity =
-                    //     AddProductInputEntity(
-                    //   id: generateProductId(),
-                    //   name: name,
-                    //   price: price,
-                    //   code: code,
-                    //   description: description,
-                    //   image: imageFile!,
-                    //   isFeatured: isFeatured,
-                    //   isOraganic: isOraganic,
-                    //   unitAmount: unitAmount,
-                    //   expeireationMonths: expeireationMonths,
-                    //   numberOfCalories: numberOfCalories,
-                    //   productType: productType,
-                    // );
+                    ProductInputEntity addProductInputEntity =
+                        ProductInputEntity(
+                          id: generateProductId(),
+                          name: name,
+                          price: price.toString(),
+                          description: description,
+                          calories: numberOfCalories,
+                          productType: productType,
+                          avrageRating: 0.0,
+                          isFavourite: false,
+                          imageFile: imageFile,
+                          createdAt: DateTime.now(),
+                          productImages: productImagesFiles,
+                        );
+                    log(
+                      "id= ${addProductInputEntity.id}  date= ${addProductInputEntity.createdAt}  image= ${addProductInputEntity.imageFile}  images= ${addProductInputEntity.productImages}",
+                    );
                     // await context.read<AddProductCubit>().addProduct(
                     //     addProductInputEntity: addProductInputEntity);
                   } else {
                     autovalidateMode = AutovalidateMode.always;
                     setState(() {});
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("please add all images")),
+                    );
                   }
+                } else {
+                  autovalidateMode = AutovalidateMode.always;
+                  setState(() {});
                 }
               },
               text: "Add Product",
