@@ -30,4 +30,37 @@ class ProductInputEntity {
     this.baseImageUrl,
     this.productImageUrls,
   });
+
+  // create copy with function
+  ProductInputEntity copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? price,
+    String? productType,
+    num? avrageRating,
+    bool? isFavourite,
+    File? imageFile,
+    List<File?>? productImages,
+    String? baseImageUrl,
+    List<String>? productImageUrls,
+    num? calories,
+    DateTime? createdAt,
+  }) {
+    return ProductInputEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      productType: productType ?? this.productType,
+      avrageRating: avrageRating ?? this.avrageRating,
+      isFavourite: isFavourite ?? this.isFavourite,
+      imageFile: imageFile ?? this.imageFile,
+      productImages: productImages ?? this.productImages,
+      baseImageUrl: baseImageUrl ?? this.baseImageUrl,
+      productImageUrls: productImageUrls ?? this.productImageUrls,
+      calories: calories ?? this.calories,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

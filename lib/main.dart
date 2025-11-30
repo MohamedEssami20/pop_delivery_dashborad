@@ -9,6 +9,7 @@ import 'main_view.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await SupabaseStorageService.initSupabaseService();
+  await SupabaseStorageService.createBucket("poboimages");
   await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
 );
