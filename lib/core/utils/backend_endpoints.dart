@@ -7,4 +7,5 @@ abstract class BackendEndpoints {
   static const String iceCream = "iceCream";
   static const String addProduct = "Products";
   static const String imagePath = "images";
+  static const String addAd = "Ads";
 }

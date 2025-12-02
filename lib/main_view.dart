@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:popo_delivery_dashboard/core/utils/custom_button.dart';
+import 'package:popo_delivery_dashboard/features/add_advertsing/presentation/views/add_advertsing_view.dart';
 import 'features/add_products/presentation/views/add_products_view.dart';
 
 class MainView extends StatelessWidget {
@@ -16,6 +17,7 @@ class MainView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          spacing: 18,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -25,9 +27,16 @@ class MainView extends StatelessWidget {
                 Navigator.pushNamed(context, AddProductsView.routeName);
               },
             ),
+            CustomButton(
+              text: "Add Addvertsing",
+              onPressed: () {
+                Navigator.pushNamed(context, AddAdvertsingView.routeName);
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
+
