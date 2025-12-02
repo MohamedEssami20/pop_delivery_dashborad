@@ -1,12 +1,13 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popo_delivery_dashboard/core/func/generate_product_id.dart';
 import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
-
 import '../../../../../core/utils/cusotm_text_field.dart';
 import '../../../../../core/utils/custom_button.dart';
 import '../../../domain/entities/product_input_entity.dart';
+import '../../manager/add_product_cubit/add_product_cubit.dart';
+import 'add_product_button_builder.dart';
 import 'choose_product_type.dart';
 import 'image_field.dart';
 
@@ -165,11 +166,9 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                           createdAt: DateTime.now(),
                           productImages: productImagesFiles,
                         );
-                    log(
-                      "id= ${addProductInputEntity.id}  date= ${addProductInputEntity.createdAt}  image= ${addProductInputEntity.imageFile}  images= ${addProductInputEntity.productImages}",
+                    await context.read<AddProductCubit>().addProduct(
+                      addProductInputEntity,
                     );
-                    // await context.read<AddProductCubit>().addProduct(
-                    //     addProductInputEntity: addProductInputEntity);
                   } else {
                     autovalidateMode = AutovalidateMode.always;
                     setState(() {});
@@ -182,7 +181,7 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                   setState(() {});
                 }
               },
-              text: "Add Product",
+              child: const AddProductButtonBuilder(),
             ),
             const SizedBox(height: 20),
           ],
