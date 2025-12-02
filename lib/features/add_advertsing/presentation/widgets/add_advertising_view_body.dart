@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:popo_delivery_dashboard/core/func/generate_product_id.dart';
+import 'package:popo_delivery_dashboard/features/add_advertsing/presentation/widgets/add_advertising_product_button_builder.dart';
 import '../../../../../core/utils/cusotm_text_field.dart';
 import '../../../../../core/utils/custom_button.dart';
 import '../../../add_products/presentation/views/widgets/image_field.dart';
-
+import '../../domain/entities/advertising_product_input_entity.dart';
+import '../manager/advertising_product_cubit/advertising_product_cubit.dart';
 
 class AddAdvertisingViewBody extends StatefulWidget {
   const AddAdvertisingViewBody({super.key});
@@ -17,13 +20,10 @@ class _AddAdvertisingViewBodyState extends State<AddAdvertisingViewBody> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   late String name, description;
-  late num price;
-  late bool isFeatured = false;
-  late bool isOraganic = false;
+  late num price, productDiscount;
   late int numberOfCalories;
   File? imageFile;
   List<File?>? productImagesFiles;
-  String productType = BackendEndpoints.offers;
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _AddAdvertisingViewBodyState extends State<AddAdvertisingViewBody> {
             const SizedBox(height: 20),
             CustomTextFormFiled(
               onSaved: (value) {
-                price = num.parse(value!);
+                productDiscount = num.parse(value!);
               },
               hintText: "product discount percentage",
               textInputType: TextInputType.number,
@@ -152,7 +152,24 @@ class _AddAdvertisingViewBodyState extends State<AddAdvertisingViewBody> {
                       productImagesFiles!.length == 3) {
                     autovalidateMode = AutovalidateMode.disabled;
                     setState(() {});
-                   
+                    AdvertisingProductInputEntity entity =
+                        AdvertisingProductInputEntity(
+                          name: name,
+                          description: description,
+                          price: price.toString(),
+                          productDiscount: productDiscount,
+                          calories: numberOfCalories,
+                          imageFile: imageFile,
+                          productImages: productImagesFiles,
+                          createdAt: DateTime.now(),
+                          avrageRating: 0.0,
+                          isFavourite: false,
+                          productType: "advertising",
+                          id: generateProductId(),
+                        );
+                    context
+                        .read<AdvertisingProductCubit>()
+                        .addAdvertisingProduct(addProductInputEntity: entity);
                   } else {
                     autovalidateMode = AutovalidateMode.always;
                     setState(() {});
@@ -165,7 +182,7 @@ class _AddAdvertisingViewBodyState extends State<AddAdvertisingViewBody> {
                   setState(() {});
                 }
               },
-              text: "add addvertsing",
+              child: AddAdvertisingProductButtonBuilder(),
             ),
             const SizedBox(height: 20),
           ],
