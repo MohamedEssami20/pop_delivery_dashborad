@@ -6,6 +6,7 @@ class ProductInputEntity {
   final String description;
   final String price;
   final int code;
+  final String category;
   final String productType;
   final num avrageRating;
   final bool? isFavourite;
@@ -20,6 +21,7 @@ class ProductInputEntity {
     this.productImages,
     required this.id,
     required this.code,
+    required this.category,
     required this.name,
     required this.description,
     required this.price,
@@ -54,6 +56,7 @@ class ProductInputEntity {
       id: id ?? this.id,
       name: name ?? this.name,
       code: code ?? this.code,
+      category: category,
       description: description ?? this.description,
       price: price ?? this.price,
       productType: productType ?? this.productType,

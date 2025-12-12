@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popo_delivery_dashboard/core/func/generate_product_id.dart';
+import 'package:popo_delivery_dashboard/core/func/get_catogery_food.dart';
 import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 import '../../../../../core/func/get_code_product.dart';
 import '../../../../../core/utils/cusotm_text_field.dart';
@@ -166,6 +167,7 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                           imageFile: imageFile,
                           createdAt: DateTime.now(),
                           code: getCodeWithProductType(productType),
+                          category: getCategory(productType: productType),
                           productImages: productImagesFiles,
                         );
                     await context.read<AddProductCubit>().addProduct(

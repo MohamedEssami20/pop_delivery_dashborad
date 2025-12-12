@@ -18,7 +18,7 @@ class ChosseProductType extends StatelessWidget {
         child: DropdownButton<String>(
           underline: const SizedBox(),
           value: value ?? BackendEndpoints.offers,
-          hint: const Text("Product Type"),
+          hint: const Text("Food Type"),
           items: const [
             DropdownMenuItem(
               value: BackendEndpoints.offers,
@@ -43,6 +43,22 @@ class ChosseProductType extends StatelessWidget {
             DropdownMenuItem(
               value: BackendEndpoints.iceCream,
               child: Text(BackendEndpoints.iceCream),
+            ),
+            DropdownMenuItem(
+              value: BackendEndpoints.indianFood,
+              child: Text(BackendEndpoints.indianFood),
+            ),
+            DropdownMenuItem(
+              value: BackendEndpoints.desserts,
+              child: Text(BackendEndpoints.desserts),
+            ),
+            DropdownMenuItem(
+              value: BackendEndpoints.fastFood,
+              child: Text(BackendEndpoints.fastFood),
+            ),
+            DropdownMenuItem(
+              value: BackendEndpoints.seaFood,
+              child: Text(BackendEndpoints.seaFood),
             ),
           ],
           onChanged: onchanged,

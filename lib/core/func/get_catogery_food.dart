@@ -1,29 +1,29 @@
 import '../utils/backend_endpoints.dart';
 
-int getCodeWithProductType(String productType) {
+String getCategory({required String productType}) {
   if (productType == BackendEndpoints.offers) {
-    return 1;
+    return "Offers";
   } else if (productType == BackendEndpoints.pizza) {
-    return 2;
+    return "Pizza";
   } else if (productType == BackendEndpoints.softDrinks) {
-    return 3;
+    return "SoftDrinks";
   } else if (productType == BackendEndpoints.burger) {
-    return 4;
+    return "Burger";
   } else if (productType == BackendEndpoints.dounut) {
-    return 5;
+    return "Dounut";
   } 
   else if (productType == BackendEndpoints.iceCream) {
-    return 6;
+    return "IceCream";
   }
   else if (productType == BackendEndpoints.indianFood) {
-    return 7;
+    return "IndianFood";
   } else if (productType == BackendEndpoints.desserts) {
-    return 8;
+    return "Desserts";
   } else if (productType == BackendEndpoints.fastFood) {
-    return 9;
+    return "FastFood";
   } else if (productType == BackendEndpoints.seaFood) {
-    return 10;
+    return "SeaFood";
   } else {
-    return 11;
+    return "Others";
   }
 }

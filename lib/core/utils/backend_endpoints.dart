@@ -5,6 +5,10 @@ abstract class BackendEndpoints {
   static const String burger = "burger";
   static const String dounut = "dounut";
   static const String iceCream = "iceCream";
+  static const String indianFood = "indianFood";
+  static const String desserts = "desserts";
+  static const String fastFood = "fastFood";
+  static const String seaFood = "seaFood";
   static const String addProduct = "Products";
   static const String imagePath = "images";
   static const String addAd = "Ads";

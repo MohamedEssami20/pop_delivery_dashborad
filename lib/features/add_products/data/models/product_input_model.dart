@@ -8,6 +8,7 @@ class ProductInputModel {
   final String description;
   final String price;
   final int code;
+  final String category;
   final String productType;
   final num avrageRating;
   final bool? isFavourite;
@@ -24,6 +25,7 @@ class ProductInputModel {
     required this.description,
     required this.price,
     required this.code,
+    required this.category,
     required this.productType,
     required this.avrageRating,
     this.isFavourite =false,
@@ -42,6 +44,7 @@ class ProductInputModel {
       'description': description,
       'price': price,
       'code': code,
+      'category': category,
       'productType': productType,
       'avrageRating': avrageRating,
       'isFavourite': isFavourite,
@@ -59,6 +62,7 @@ class ProductInputModel {
       description: product.description,
       price: product.price,
       code: product.code,
+      category: product.category,
       productType: product.productType,
       avrageRating: product.avrageRating,
       isFavourite: product.isFavourite,
