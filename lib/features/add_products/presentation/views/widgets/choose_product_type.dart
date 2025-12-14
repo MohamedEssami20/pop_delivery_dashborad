@@ -60,6 +60,10 @@ class ChosseProductType extends StatelessWidget {
               value: BackendEndpoints.seaFood,
               child: Text(BackendEndpoints.seaFood),
             ),
+            DropdownMenuItem(
+              value: BackendEndpoints.productAds,
+              child: Text(BackendEndpoints.productAds),
+            ),
           ],
           onChanged: onchanged,
         ),

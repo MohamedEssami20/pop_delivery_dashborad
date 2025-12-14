@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:popo_delivery_dashboard/main_view.dart';
-
-import '../../features/add_advertsing/presentation/views/add_advertsing_view.dart';
 import '../../features/add_products/presentation/views/add_products_view.dart';
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -10,8 +8,6 @@ Route? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const MainView());
     case AddProductsView.routeName:
       return MaterialPageRoute(builder: (_) => const AddProductsView());
-    case AddAdvertsingView.routeName:
-      return MaterialPageRoute(builder: (_) => const AddAdvertsingView());
     default:
       return null;
   }

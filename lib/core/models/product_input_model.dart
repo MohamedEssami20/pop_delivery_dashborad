@@ -1,12 +1,15 @@
 import 'dart:io';
 
-import 'package:popo_delivery_dashboard/features/add_advertsing/domain/entities/advertising_product_input_entity.dart';
-class AdvertisingProductInputModel {
+import '../entities/product_input_entity.dart';
+
+class ProductInputModel {
   final String id;
   final String name;
   final String description;
   final String price;
-  final num productDiscount;
+  final int code;
+  final int discount;
+  final String category;
   final String productType;
   final num avrageRating;
   final bool? isFavourite;
@@ -17,11 +20,14 @@ class AdvertisingProductInputModel {
   final num calories;
   final DateTime? createdAt;
 
-  AdvertisingProductInputModel({
+  ProductInputModel({
     required this.id,
+    required this.discount,
     required this.name,
     required this.description,
     required this.price,
+    required this.code,
+    required this.category,
     required this.productType,
     required this.avrageRating,
     this.isFavourite =false,
@@ -30,7 +36,7 @@ class AdvertisingProductInputModel {
     required this.calories,
     required this.createdAt,
     this.image,
-    this.productImagesFile, required this.productDiscount,
+    this.productImagesFile,
   });
 
   Map<String, dynamic> toMap() {
@@ -39,7 +45,9 @@ class AdvertisingProductInputModel {
       'name': name,
       'description': description,
       'price': price,
-      'productDiscount': productDiscount,
+      'code': code,
+      'category': category,
+      'discount': discount,
       'productType': productType,
       'avrageRating': avrageRating,
       'isFavourite': isFavourite,
@@ -50,13 +58,15 @@ class AdvertisingProductInputModel {
     };
   }
 
-  factory AdvertisingProductInputModel.fromProductEntity(AdvertisingProductInputEntity product) {
-    return AdvertisingProductInputModel(
+  factory ProductInputModel.fromProductEntity(ProductInputEntity product) {
+    return ProductInputModel(
       id: product.id,
       name: product.name,
       description: product.description,
-      productDiscount: product.productDiscount,
       price: product.price,
+      code: product.code,
+      discount: product.discount,
+      category: product.category,
       productType: product.productType,
       avrageRating: product.avrageRating,
       isFavourite: product.isFavourite,

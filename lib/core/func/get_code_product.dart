@@ -11,11 +11,9 @@ int getCodeWithProductType(String productType) {
     return 4;
   } else if (productType == BackendEndpoints.dounut) {
     return 5;
-  } 
-  else if (productType == BackendEndpoints.iceCream) {
+  } else if (productType == BackendEndpoints.iceCream) {
     return 6;
-  }
-  else if (productType == BackendEndpoints.indianFood) {
+  } else if (productType == BackendEndpoints.indianFood) {
     return 7;
   } else if (productType == BackendEndpoints.desserts) {
     return 8;
@@ -23,7 +21,9 @@ int getCodeWithProductType(String productType) {
     return 9;
   } else if (productType == BackendEndpoints.seaFood) {
     return 10;
-  } else {
+  } else if (productType == BackendEndpoints.productAds) {
     return 11;
+  } else {
+    return 12;
   }
 }

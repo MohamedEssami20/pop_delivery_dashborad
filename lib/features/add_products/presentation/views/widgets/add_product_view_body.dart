@@ -7,7 +7,7 @@ import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 import '../../../../../core/func/get_code_product.dart';
 import '../../../../../core/utils/cusotm_text_field.dart';
 import '../../../../../core/utils/custom_button.dart';
-import '../../../domain/entities/product_input_entity.dart';
+import '../../../../../core/entities/product_input_entity.dart';
 import '../../manager/add_product_cubit/add_product_cubit.dart';
 import 'add_product_button_builder.dart';
 import 'choose_product_type.dart';
@@ -27,7 +27,7 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
   late num price;
   late bool isFeatured = false;
   late bool isOraganic = false;
-  late int numberOfCalories;
+  late int numberOfCalories, discount;
   File? imageFile;
   List<File?>? productImagesFiles;
   String productType = BackendEndpoints.offers;
@@ -80,6 +80,20 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return "product price can't be empty";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomTextFormFiled(
+              onSaved: (value) {
+                discount = int.parse(value!);
+              },
+              hintText: "product discount",
+              textInputType: TextInputType.number,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "product discount can't be empty";
                 }
                 return null;
               },
@@ -169,6 +183,7 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                           code: getCodeWithProductType(productType),
                           category: getCategory(productType: productType),
                           productImages: productImagesFiles,
+                          discount: discount,
                         );
                     await context.read<AddProductCubit>().addProduct(
                       addProductInputEntity,

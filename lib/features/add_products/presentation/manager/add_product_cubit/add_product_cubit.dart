@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:popo_delivery_dashboard/features/add_products/domain/entities/product_input_entity.dart';
+import 'package:popo_delivery_dashboard/core/entities/product_input_entity.dart';
 import '../../../domain/repos/add_product_repo.dart';
 
 part 'add_product_state.dart';

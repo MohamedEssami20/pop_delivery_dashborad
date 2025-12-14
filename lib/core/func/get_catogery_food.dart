@@ -11,11 +11,9 @@ String getCategory({required String productType}) {
     return "Burger";
   } else if (productType == BackendEndpoints.dounut) {
     return "Dounut";
-  } 
-  else if (productType == BackendEndpoints.iceCream) {
+  } else if (productType == BackendEndpoints.iceCream) {
     return "IceCream";
-  }
-  else if (productType == BackendEndpoints.indianFood) {
+  } else if (productType == BackendEndpoints.indianFood) {
     return "IndianFood";
   } else if (productType == BackendEndpoints.desserts) {
     return "Desserts";
@@ -23,6 +21,8 @@ String getCategory({required String productType}) {
     return "FastFood";
   } else if (productType == BackendEndpoints.seaFood) {
     return "SeaFood";
+  } else if (productType == BackendEndpoints.productAds) {
+    return "Ads";
   } else {
     return "Others";
   }

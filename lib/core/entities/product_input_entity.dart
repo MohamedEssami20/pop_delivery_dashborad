@@ -1,11 +1,13 @@
 import 'dart:io';
 
-class AdvertisingProductInputEntity {
+class ProductInputEntity {
   final String id;
   final String name;
   final String description;
   final String price;
-  final num productDiscount;
+  final int code;
+  final int discount;
+  final String category;
   final String productType;
   final num avrageRating;
   final bool? isFavourite;
@@ -16,9 +18,12 @@ class AdvertisingProductInputEntity {
   final num calories;
   final DateTime? createdAt;
 
-  AdvertisingProductInputEntity({
+  ProductInputEntity({
     this.productImages,
+    this.discount = 0,
     required this.id,
+    required this.code,
+    required this.category,
     required this.name,
     required this.description,
     required this.price,
@@ -29,15 +34,18 @@ class AdvertisingProductInputEntity {
     required this.calories,
     this.createdAt,
     this.baseImageUrl,
-    this.productImageUrls, required this.productDiscount,
+    this.productImageUrls,
   });
 
   // create copy with function
-  AdvertisingProductInputEntity copyWith({
+  ProductInputEntity copyWith({
     String? id,
     String? name,
     String? description,
     String? price,
+    int? code,
+    String? category,
+    int ? discount,
     String? productType,
     num? avrageRating,
     bool? isFavourite,
@@ -47,14 +55,15 @@ class AdvertisingProductInputEntity {
     List<String>? productImageUrls,
     num? calories,
     DateTime? createdAt,
-    num? productDiscount
   }) {
-    return AdvertisingProductInputEntity(
+    return ProductInputEntity(
       id: id ?? this.id,
       name: name ?? this.name,
+      code: code ?? this.code,
+      category: category?? this.category,
+      discount: discount ?? this.discount,
       description: description ?? this.description,
       price: price ?? this.price,
-      productDiscount: productDiscount ?? this.productDiscount,
       productType: productType ?? this.productType,
       avrageRating: avrageRating ?? this.avrageRating,
       isFavourite: isFavourite ?? this.isFavourite,

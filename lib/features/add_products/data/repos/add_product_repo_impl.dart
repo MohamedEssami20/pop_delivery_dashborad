@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:popo_delivery_dashboard/core/repos/images_repo.dart';
 import 'package:popo_delivery_dashboard/core/utils/app_keys.dart';
 import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 import '../../../../core/errors/failure.dart';
 import '../../../../core/services/data_base_service.dart';
-import '../../domain/entities/product_input_entity.dart';
+import '../../../../core/entities/product_input_entity.dart';
 import '../../domain/repos/add_product_repo.dart';
-import '../models/product_input_model.dart';
+import '../../../../core/models/product_input_model.dart';
 
 class AddProductRepoImpl implements AddProductRepo {
   final DataBaseService dataBaseService;
@@ -48,6 +49,8 @@ class AddProductRepoImpl implements AddProductRepo {
       );
 
       return right(null);
+    } on FirebaseException {
+      return left(ServerFailure(errorMessage: " Failed to add product"));
     } catch (e) {
       return left(ServerFailure(errorMessage: "Failed to add product"));
     }

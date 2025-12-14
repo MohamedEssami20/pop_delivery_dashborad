@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popo_delivery_dashboard/core/utils/get_it_service.dart';
 import 'package:popo_delivery_dashboard/firebase_options.dart';
 
+import 'core/services/custom_bloc_observer.dart';
 import 'core/services/supabase_storage_service.dart';
 import 'core/utils/on_generate_route.dart';
 import 'main_view.dart';
@@ -12,6 +14,7 @@ void main() async {
   await SupabaseStorageService.initSupabaseService();
   await SupabaseStorageService.createBucket("poboimages");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Bloc.observer = CustomBlocObserver();
   GetItService().getItInit();
   runApp(const BopoDeliveryFoodDashboard());
 }
