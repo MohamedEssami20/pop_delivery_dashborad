@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:popo_delivery_dashboard/core/utils/custom_button.dart';
 import 'features/add_products/presentation/views/add_products_view.dart';
+import 'features/orders/presentation/views/orders_view.dart';
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
@@ -26,10 +27,15 @@ class MainView extends StatelessWidget {
                 Navigator.pushNamed(context, AddProductsView.routeName);
               },
             ),
+            CustomButton(
+              text: "View Orders",
+              onPressed: () {
+                Navigator.pushNamed(context, OrdersView.routeName);
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
-

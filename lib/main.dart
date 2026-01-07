@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:popo_delivery_dashboard/core/utils/app_theme.dart';
 import 'package:popo_delivery_dashboard/core/utils/get_it_service.dart';
 import 'package:popo_delivery_dashboard/firebase_options.dart';
 
@@ -24,10 +25,11 @@ class BopoDeliveryFoodDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoute,
       initialRoute: MainView.routeName,
+      theme: AppTheme.lightTheme(),
     );
   }
 }
