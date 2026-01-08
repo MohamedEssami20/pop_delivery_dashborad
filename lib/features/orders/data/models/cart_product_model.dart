@@ -1,10 +1,10 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../../core/entities/product_entity.dart';
 import '../../domain/entities/cart_item_entity.dart';
 
-
-class CartProductModel {
+// ignore: must_be_immutable
+class CartProductModel extends CartItemEntity {
   final String id;
   final String name;
   final String description;
@@ -19,7 +19,6 @@ class CartProductModel {
   final List<dynamic> productImages;
   final num calories;
   final Timestamp createdAt;
-  final int quantity;
 
   CartProductModel({
     required this.id,
@@ -36,8 +35,25 @@ class CartProductModel {
     required this.productImages,
     required this.calories,
     required this.createdAt,
-    required this.quantity,
-  });
+    required super.quantity,
+  }) : super(
+         productEntity: ProductEntity(
+           id: id,
+           name: name,
+           avrageRating: avrageRating,
+           isFavourite: isFavourite,
+           calories: calories,
+           createdAt: createdAt,
+           baseImageUrl: imageFile,
+           price: price,
+           code: code,
+           discount: discount,
+           category: category,
+           productType: productType,
+           description: description,
+           productImageUrls: productImages,
+         ),
+       );
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -60,22 +76,38 @@ class CartProductModel {
   }
 
   factory CartProductModel.fromJson(Map<String, dynamic> map) {
-    return CartProductModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      description: map['description'] as String,
-      price: map['price'] as String,
+    final product = ProductEntity(
+      id: map['id'],
+      name: map['name'],
+      description: map['description'],
+      price: map['price'],
       code: map['code'] ?? 0,
       discount: map['discount'] ?? 0,
-      category: map['category'] as String,
-      productType: map['productType'] as String,
-      avrageRating: map['avrageRating'] as num,
-      isFavourite: map['isFavourite'] as bool,
-      imageFile: map['imageFile'] as String,
-      productImages: map['productImages'] as List<dynamic>,
-      calories: map['calories'] as num,
-      createdAt: map['createdAt'] as Timestamp,
-      quantity: map['quantity'] as int,
+      category: map['category'],
+      productType: map['productType'],
+      avrageRating: map['avrageRating'],
+      isFavourite: map['isFavourite'],
+      baseImageUrl: map['imageFile'],
+      productImageUrls: List<String>.from(map['productImages']),
+      calories: map['calories'],
+      createdAt: map['createdAt'],
+    );
+    return CartProductModel(
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      code: product.code,
+      discount: product.discount,
+      category: product.category,
+      productType: product.productType,
+      avrageRating: product.avrageRating,
+      isFavourite: product.isFavourite,
+      imageFile: product.baseImageUrl,
+      productImages: product.productImageUrls,
+      calories: product.calories,
+      createdAt: product.createdAt,
+      quantity: map['quantity'],
     );
   }
 
@@ -98,4 +130,4 @@ class CartProductModel {
       quantity: cartItemEntity.quantity,
     );
   }
-  }
+}

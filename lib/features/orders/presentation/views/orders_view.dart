@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:popo_delivery_dashboard/core/utils/get_it_service.dart';
+import 'package:popo_delivery_dashboard/features/orders/presentation/manager/get_orders_cubit/get_orders_cubit.dart';
 import 'package:popo_delivery_dashboard/features/orders/presentation/views/widgets/order_view_body.dart';
+
+import '../../domain/repos/order_repos.dart';
 
 class OrdersView extends StatelessWidget {
   const OrdersView({super.key});
   static const String routeName = 'orders';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          "Orders",
-          style: TextStyle(color: Colors.white),
+    return BlocProvider(
+      create: (context) =>
+          GetOrdersCubit(orderRepos: GetItService().getIt.get<OrderRepos>()),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text("Orders", style: TextStyle(color: Colors.white)),
+          centerTitle: true,
+          backgroundColor: Colors.green.shade900,
         ),
-        centerTitle: true,
-        backgroundColor: Colors.green.shade900,
+        body: const OrderViewBody(),
       ),
-      body: const OrderViewBody(),
     );
   }
 }
