@@ -1,10 +1,10 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:popo_delivery_dashboard/core/errors/failure.dart';
+import 'package:popo_delivery_dashboard/core/helper/order_state.dart';
 import 'package:popo_delivery_dashboard/core/services/data_base_service.dart';
+import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 import 'package:popo_delivery_dashboard/features/orders/data/models/orders_model.dart';
 
 import 'package:popo_delivery_dashboard/features/orders/domain/entities/order_entity.dart';
@@ -13,7 +13,6 @@ import '../../domain/repos/order_repos.dart';
 
 class OrderReposImpl implements OrderRepos {
   final DataBaseService dataBaseService;
-
   OrderReposImpl({required this.dataBaseService});
   @override
   Stream<Either<Failure, List<OrderEntity>>> getOrders() async* {
@@ -31,6 +30,29 @@ class OrderReposImpl implements OrderRepos {
     } catch (e) {
       log("error while getting orders ${e.toString()}");
       yield left(ServerFailure(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> changeOrderState({
+    required OrderState orderState,
+    required String orderId,
+  }) async {
+    try {
+      await dataBaseService.updateData(
+        mainPath: BackendEndpoints.orders,
+        mainDocumentId: FirebaseAuth.instance.currentUser!.uid,
+        subPath: BackendEndpoints.userOrders,
+        subDocumentId: orderId,
+        data: {"orderState": orderState.toString()},
+      );
+      return right(null);
+    } on FirebaseException catch (e) {
+      log("error while editing orders state from firebase ${e.message}");
+      return left(ServerFailure(errorMessage: e.message!));
+    } catch (e) {
+      log("error while getting orders ${e.toString()}");
+      return left(ServerFailure(errorMessage: e.toString()));
     }
   }
 }

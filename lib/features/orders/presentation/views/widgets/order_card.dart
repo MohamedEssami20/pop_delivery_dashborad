@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:popo_delivery_dashboard/features/orders/presentation/views/widgets/products_order_details.dart';
+import '../../../../../core/func/get_next_order_state.dart';
 import '../../../../../core/helper/app_theme_helper.dart';
 import '../../../domain/entities/order_entity.dart';
 import 'info_row.dart';
@@ -89,8 +92,14 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Change Status"),
+                    onPressed: () {
+                      log(
+                        "change order state to ${order.orderState.substring(11)}",
+                      );
+                    },
+                    child: Text(
+                      getNextOrderState(order.orderState.substring(11)),
+                    ),
                   ),
                 ),
               ],
