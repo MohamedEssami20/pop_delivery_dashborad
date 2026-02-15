@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popo_delivery_dashboard/core/utils/get_it_service.dart';
+import 'package:popo_delivery_dashboard/features/orders/presentation/manager/change_order_state_cubit/change_order_state_cubit.dart';
 import 'package:popo_delivery_dashboard/features/orders/presentation/manager/get_orders_cubit/get_orders_cubit.dart';
 import 'package:popo_delivery_dashboard/features/orders/presentation/views/widgets/order_view_body.dart';
 
@@ -11,9 +12,17 @@ class OrdersView extends StatelessWidget {
   static const String routeName = 'orders';
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          GetOrdersCubit(orderRepos: GetItService().getIt.get<OrderRepos>()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GetOrdersCubit(
+            orderRepos: GetItService().getIt.get<OrderRepos>(),
+          ),
+        ),
+        BlocProvider(create: (context) => ChangeOrderStateCubit(
+          orderRepos: GetItService().getIt.get<OrderRepos>(),
+        )),
+      ],
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

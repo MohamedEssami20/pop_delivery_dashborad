@@ -1,10 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popo_delivery_dashboard/features/orders/presentation/views/widgets/products_order_details.dart';
-import '../../../../../core/func/get_next_order_state.dart';
+import '../../../../../core/func/next_order_state_color.dart';
+import '../../../../../core/func/next_order_statues.dart';
 import '../../../../../core/helper/app_theme_helper.dart';
 import '../../../domain/entities/order_entity.dart';
+import '../../manager/change_order_state_cubit/change_order_state_cubit.dart';
 import 'info_row.dart';
 import 'order_id_and_state.dart';
 import 'order_products_images.dart';
@@ -25,7 +26,8 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final theme = AppThemeHelper(context);
     final order = widget.order;
-
+    final isFinished =
+        order.orderState == "delivered" || order.orderState == "completed";
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -36,7 +38,7 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            OrderIDAndState(order: order, theme: theme),
+            OrderIDAndState(order: widget.order, theme: theme),
             const SizedBox(height: 8),
             Text(
               "Placed on ${order.dateTime}",
@@ -90,18 +92,32 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      log(
-                        "change order state to ${order.orderState.substring(11)}",
-                      );
-                    },
-                    child: Text(
-                      getNextOrderState(order.orderState.substring(11)),
+
+                if (!isFinished)
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: nextOrderStateColor(order.orderState),
+                      ),
+                      onPressed: () {
+                        context.read<ChangeOrderStateCubit>().changeOrderState(
+                          orderState: nextOrderState(order.orderState),
+                          orderId: order.id,
+                          userId: order.userId,
+                        );
+                      },
+                      child: Text(
+                        "Move to ${nextOrderState(order.orderState)}",
+                      ),
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: null,
+                      child: const Text("Delivered"),
                     ),
                   ),
-                ),
               ],
             ),
           ],

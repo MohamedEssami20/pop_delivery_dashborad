@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:popo_delivery_dashboard/core/errors/failure.dart';
-import 'package:popo_delivery_dashboard/core/helper/order_state.dart';
 import 'package:popo_delivery_dashboard/core/services/data_base_service.dart';
 import 'package:popo_delivery_dashboard/core/utils/backend_endpoints.dart';
 import 'package:popo_delivery_dashboard/features/orders/data/models/orders_model.dart';
@@ -35,15 +34,16 @@ class OrderReposImpl implements OrderRepos {
 
   @override
   Future<Either<Failure, void>> changeOrderState({
-    required OrderState orderState,
-    required String orderId,
+    required String orderState,
+    required int orderId,
+    required String userId,
   }) async {
     try {
       await dataBaseService.updateData(
         mainPath: BackendEndpoints.orders,
-        mainDocumentId: FirebaseAuth.instance.currentUser!.uid,
+        mainDocumentId: userId,
         subPath: BackendEndpoints.userOrders,
-        subDocumentId: orderId,
+        subDocumentId: orderId.toString(),
         data: {"orderState": orderState.toString()},
       );
       return right(null);

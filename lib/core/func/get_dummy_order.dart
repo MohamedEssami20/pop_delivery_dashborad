@@ -7,6 +7,7 @@ import '../../features/orders/domain/entities/cart_item_entity.dart';
 OrderEntity getDummyOrder() {
   return OrderEntity(
     id: 12351,
+    userId: "12351",
     name: 'John Doe',
     email: 'eYHt8@example.com',
     country: 'United States',

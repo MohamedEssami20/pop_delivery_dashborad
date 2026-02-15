@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:popo_delivery_dashboard/core/helper/order_state.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../entities/order_entity.dart';
@@ -9,6 +8,9 @@ abstract class OrderRepos {
   Stream<Either<Failure, List<OrderEntity>>> getOrders();
 
   // create method that change order state;
-  Future<Either<Failure, void>> changeOrderState({required OrderState orderState,required String orderId});
-
+  Future<Either<Failure, void>> changeOrderState({
+    required String orderState,
+    required int orderId,
+    required String userId,
+  });
 }

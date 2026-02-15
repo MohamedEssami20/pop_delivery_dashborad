@@ -2,5 +2,6 @@ enum OrderState {
   preparing,
   onTheWay,
   delivered,
-  cancelled
+  cancelled,
+  completed
 }

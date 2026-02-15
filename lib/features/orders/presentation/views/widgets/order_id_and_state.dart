@@ -23,7 +23,7 @@ class OrderIDAndState extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
-            order.orderState.toUpperCase().substring(11),
+            order.orderState,
             style: theme.textStyles.labelMedium?.copyWith(
               color: orderStateTextColor(order.orderState),
               fontWeight: FontWeight.bold,

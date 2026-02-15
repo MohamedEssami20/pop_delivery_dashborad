@@ -7,6 +7,7 @@ import 'cart_product_model.dart';
 
 class OrderModel {
   final int id;
+  final String userId;
   final String name;
   final String email;
   final String country;
@@ -21,6 +22,7 @@ class OrderModel {
   final String orderState;
   OrderModel({
     required this.id,
+    required this.userId,
     required this.name,
     required this.email,
     required this.country,
@@ -38,6 +40,7 @@ class OrderModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'userId': userId,
       'name': name,
       'email': email,
       'country': country,
@@ -58,6 +61,7 @@ class OrderModel {
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
       id: map['id']?.toInt() ?? 0,
+      userId: map['userId'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       country: map['country'] ?? '',
@@ -77,6 +81,7 @@ class OrderModel {
 
   OrderEntity toEntity() => OrderEntity(
     id: id,
+    userId: userId,
     name: name,
     email: email,
     country: country,
@@ -95,6 +100,7 @@ class OrderModel {
     OrderEntity entity,
   ) => OrderModel(
     id: entity.id,
+    userId: entity.userId,
     name: entity.name,
     email: entity.email,
     orderState: entity.orderState,
