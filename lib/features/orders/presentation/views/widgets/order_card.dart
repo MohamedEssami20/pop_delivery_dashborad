@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:popo_delivery_dashboard/core/func/get_next_order_state.dart';
 import 'package:popo_delivery_dashboard/features/orders/presentation/views/widgets/products_order_details.dart';
 import '../../../../../core/func/next_order_state_color.dart';
 import '../../../../../core/func/next_order_statues.dart';
@@ -27,7 +28,9 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
     final theme = AppThemeHelper(context);
     final order = widget.order;
     final isFinished =
-        order.orderState == "delivered" || order.orderState == "completed";
+        order.orderState == "delivered" ||
+        order.orderState == "completed" ||
+        order.orderState == "cancelled";
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -115,7 +118,7 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: null,
-                      child: const Text("Delivered"),
+                      child: Text(getNextOrderState(order.orderState)),
                     ),
                   ),
               ],

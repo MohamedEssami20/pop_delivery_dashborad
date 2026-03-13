@@ -3,6 +3,8 @@ String getNextOrderState(String state) {
     return "onTheWay";
   } else if (state == "onTheWay") {
     return "Delivering";
+  } else if (state == "cancelled") {
+    return "cancelled";
   } else {
     return "Completed";
   }

@@ -6,6 +6,8 @@ Color nextOrderStateColor(String state) {
       return Colors.orange; // الحالة القادمة onTheWay
     case "onTheWay":
       return Colors.green; // الحالة القادمة delivered
+    case "cancelled":
+      return Colors.red;
     default:
       return Colors.grey;
   }

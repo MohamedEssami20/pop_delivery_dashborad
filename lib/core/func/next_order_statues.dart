@@ -4,6 +4,8 @@ String nextOrderState(String state) {
       return "onTheWay";
     case "onTheWay":
       return "delivered";
+    case "cancelled":
+      return "cancelled";
     default:
       return "completed";
   }
