@@ -5,6 +5,8 @@ import 'package:popo_delivery_dashboard/core/services/firestore_service.dart';
 import 'package:popo_delivery_dashboard/core/services/storage_service.dart';
 import 'package:popo_delivery_dashboard/core/services/supabase_storage_service.dart';
 import 'package:popo_delivery_dashboard/features/add_products/domain/repos/add_product_repo.dart';
+import 'package:popo_delivery_dashboard/features/auth/data/repos/auth_repo_impl.dart';
+import 'package:popo_delivery_dashboard/features/auth/domain/repos/auth_repo.dart';
 import 'package:popo_delivery_dashboard/features/orders/domain/repos/order_repos.dart';
 import '../../features/add_products/data/repos/add_product_repo_impl.dart';
 import '../../features/orders/data/repos/order_repos_impl.dart';
@@ -31,5 +33,8 @@ class GetItService {
         dataBaseService: getIt.get<DataBaseService>(),
       ),
     );
+
+    getIt.registerSingleton<AuthRepo>(AuthRepoImpl());
   }
 }
+

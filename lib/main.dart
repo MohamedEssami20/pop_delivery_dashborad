@@ -8,7 +8,7 @@ import 'package:popo_delivery_dashboard/firebase_options.dart';
 import 'core/services/custom_bloc_observer.dart';
 import 'core/services/supabase_storage_service.dart';
 import 'core/utils/on_generate_route.dart';
-import 'main_view.dart';
+import 'features/auth/presentation/views/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,7 @@ class BopoDeliveryFoodDashboard extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: onGenerateRoute,
-      initialRoute: MainView.routeName,
+      initialRoute: LoginView.routeName,
       theme: AppTheme.lightTheme(),
     );
   }

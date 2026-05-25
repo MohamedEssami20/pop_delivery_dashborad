@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:popo_delivery_dashboard/features/auth/presentation/views/login_view.dart';
 import 'package:popo_delivery_dashboard/main_view.dart';
 import '../../features/add_products/presentation/views/add_products_view.dart';
 import '../../features/orders/presentation/views/orders_view.dart';
 
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
+    case LoginView.routeName:
+      return MaterialPageRoute(builder: (_) => const LoginView());
     case MainView.routeName:
       return MaterialPageRoute(builder: (_) => const MainView());
     case AddProductsView.routeName:
