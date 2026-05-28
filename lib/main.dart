@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:popo_delivery_dashboard/core/utils/app_theme.dart';
 import 'package:popo_delivery_dashboard/core/utils/get_it_service.dart';
+import 'package:popo_delivery_dashboard/core/services/notification_service.dart';
 import 'package:popo_delivery_dashboard/firebase_options.dart';
 
 import 'core/services/custom_bloc_observer.dart';
@@ -17,6 +19,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Bloc.observer = CustomBlocObserver();
   GetItService().getItInit();
+  await GetIt.instance.get<NotificationService>().init();
   runApp(const BopoDeliveryFoodDashboard());
 }
 
