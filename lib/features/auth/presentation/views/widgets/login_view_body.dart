@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -30,6 +31,12 @@ class _LoginViewBodyState extends State<LoginViewBody>
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      isAdminLogin()
+          // ignore: use_build_context_synchronously
+          ? Navigator.pushReplacementNamed(context, MainView.routeName)
+          : null;
+    });
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
@@ -42,12 +49,16 @@ class _LoginViewBodyState extends State<LoginViewBody>
     );
     _slideAnimation =
         Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.2, 0.8, curve: Curves.easeOutCubic),
-      ),
-    );
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.2, 0.8, curve: Curves.easeOutCubic),
+          ),
+        );
     _animationController.forward();
+  }
+
+  bool isAdminLogin() {
+    return FirebaseAuth.instance.currentUser != null;
   }
 
   @override
@@ -183,8 +194,7 @@ class _LoginViewBodyState extends State<LoginViewBody>
             if (value == null || value.isEmpty) {
               return 'Please enter your email';
             }
-            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                .hasMatch(value)) {
+            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
               return 'Please enter a valid email';
             }
             return null;
@@ -240,9 +250,9 @@ class _LoginViewBodyState extends State<LoginViewBody>
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
       context.read<LoginCubit>().login(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          );
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
     }
   }
 }

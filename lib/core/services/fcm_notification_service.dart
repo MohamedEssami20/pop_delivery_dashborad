@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import '../repos/admin_repo.dart';
+import 'local_notification_service.dart';
 import 'notification_service.dart';
 
 @pragma('vm:entry-point')
@@ -17,33 +18,56 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 class FcmNotificationService implements NotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  final LocalNotificationService _localNotifications = LocalNotificationService();
 
   @override
   Future<void> init() async {
-    // 1. Request notification permissions (required for iOS and Android 13+)
+    // 1. Initialize local notifications
+    await _localNotifications.init();
+
+    // 2. Request notification permissions (required for iOS and Android 13+)
     await _requestPermissions();
 
-    // 2. Set foreground presentation options (especially for iOS)
+    // 3. Set foreground presentation options (especially for iOS)
     await _fcm.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
 
-    // 3. Configure background message handler
+    // 4. Configure background message handler
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    // 4. Listen to foreground messages
+    // 5. Listen to foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log('Foreground message received: ${message.messageId}');
       log('Title: ${message.notification?.title}');
       log('Body: ${message.notification?.body}');
       log('Data: ${message.data}');
 
-      // Optionally handle custom UI alerts or local notification updates here.
+      final notification = message.notification;
+      if (notification != null) {
+        _localNotifications.showNotification(
+          id: notification.hashCode,
+          title: notification.title,
+          body: notification.body,
+          payload: message.data.toString(),
+        );
+      } else if (message.data.isNotEmpty) {
+        final String? title = message.data['title'];
+        final String? body = message.data['body'];
+        if (title != null || body != null) {
+          _localNotifications.showNotification(
+            id: message.hashCode,
+            title: title,
+            body: body,
+            payload: message.data.toString(),
+          );
+        }
+      }
     });
 
-    // 5. Listen to app open from background state via notification click
+    // 6. Listen to app open from background state via notification click
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       log(
         'Notification clicked! App opened from background: ${message.messageId}',
@@ -52,7 +76,7 @@ class FcmNotificationService implements NotificationService {
       // Typically you would navigate to a specific screen based on message data here
     });
 
-    // 6. Handle app open from terminated state via notification click
+    // 7. Handle app open from terminated state via notification click
     final initialMessage = await _fcm.getInitialMessage();
     if (initialMessage != null) {
       log(
@@ -61,11 +85,18 @@ class FcmNotificationService implements NotificationService {
       log('Data: ${initialMessage.data}');
     }
 
-    // 7. Get and log the token for debugging/backend use
+    // 8. Get and log the token for debugging/backend use
     final token = await getToken();
-    log("FCM Token initialized: $token");
+    if (token != null) {
+      log("FCM Token initialized: $token");
+      await GetIt.instance.get<AdminRepo>().updateFCMToken(token);
 
-    // 8. listen to token update
+      // subscribe after token is confirmed
+      await _fcm.subscribeToTopic('dashboard_updates');
+      log("Subscribed After Token Confirmation");
+    }
+
+    // 9. listen to token update
     _fcm.onTokenRefresh.listen((String newToken) async {
       log("FCM Token updated: $newToken");
       // update token at firestore
@@ -95,6 +126,9 @@ class FcmNotificationService implements NotificationService {
     } else {
       log('User declined or has not accepted notification permissions.');
     }
+
+    // Request Android local notification permission
+    await _localNotifications.requestPermissions();
   }
 
   @override

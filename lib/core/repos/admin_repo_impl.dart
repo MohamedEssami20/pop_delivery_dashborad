@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:popo_delivery_dashboard/core/errors/custom_exception.dart';
 import 'package:popo_delivery_dashboard/core/repos/admin_repo.dart';
 import 'package:popo_delivery_dashboard/core/services/data_base_service.dart';

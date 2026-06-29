@@ -7,7 +7,7 @@ class AuthRepoImpl implements AuthRepo {
   final FirebaseAuth _firebaseAuth;
 
   AuthRepoImpl({FirebaseAuth? firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+    : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   @override
   Future<Either<Failure, void>> loginWithEmailAndPassword({
@@ -21,9 +21,7 @@ class AuthRepoImpl implements AuthRepo {
       );
       return const Right(null);
     } on FirebaseAuthException catch (e) {
-      return Left(
-        ServerFailure(errorMessage: _mapFirebaseAuthError(e.code)),
-      );
+      return Left(ServerFailure(errorMessage: _mapFirebaseAuthError(e.code)));
     } catch (e) {
       return Left(
         ServerFailure(
