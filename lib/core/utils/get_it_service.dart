@@ -15,6 +15,8 @@ import '../../features/orders/data/repos/order_repos_impl.dart';
 import '../repos/admin_repo.dart';
 import '../repos/admin_repo_impl.dart';
 import '../repos/images_repo_impl.dart';
+import '../services/cloud_flare_notification_service.dart';
+import '../services/dio_service.dart';
 
 class GetItService {
   GetIt getIt = GetIt.instance;
@@ -42,6 +44,12 @@ class GetItService {
 
     getIt.registerSingleton<AdminRepo>(
       AdminRepoImpl(dataBaseService: getIt.get<DataBaseService>()),
+    );
+    getIt.registerLazySingleton<DioService>(() => DioServiceImpl());
+    getIt.registerLazySingleton<CloudflareNotificationService>(
+      () => CloudflareNotificationServiceImpl(
+        dioService: getIt.get<DioService>(),
+      ),
     );
   }
 }
