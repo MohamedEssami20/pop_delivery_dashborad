@@ -103,7 +103,9 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
                         backgroundColor: nextOrderStateColor(order.orderState),
                       ),
                       onPressed: () {
-                        context.read<ChangeOrderStateCubit>().changeOrderState(
+                        final orderStateCubit = context
+                            .read<ChangeOrderStateCubit>();
+                        orderStateCubit.changeOrderState(
                           orderState: nextOrderState(order.orderState),
                           orderId: order.id,
                           userId: order.userId,

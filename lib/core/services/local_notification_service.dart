@@ -8,7 +8,8 @@ class LocalNotificationService {
   static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // name
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.max,
   );
 
@@ -18,15 +19,16 @@ class LocalNotificationService {
 
     const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-    );
+          requestAlertPermission: false,
+          requestBadgePermission: false,
+          requestSoundPermission: false,
+        );
 
-    const InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
-    );
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin,
+        );
 
     await _localNotifications.initialize(
       settings: initializationSettings,
@@ -38,14 +40,16 @@ class LocalNotificationService {
     // Create the channel on Android
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(_channel);
   }
 
   Future<void> requestPermissions() async {
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
   }
 
@@ -64,7 +68,7 @@ class LocalNotificationService {
           _channel.id,
           _channel.name,
           channelDescription: _channel.description,
-          icon: '@mipmap/ic_launcher',
+          icon: "notification_logo",
           importance: Importance.max,
           priority: Priority.high,
         ),
