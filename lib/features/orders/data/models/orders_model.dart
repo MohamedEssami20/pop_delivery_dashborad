@@ -1,5 +1,3 @@
-
-
 import 'package:popo_delivery_dashboard/features/orders/domain/entities/order_entity.dart';
 
 import '../../domain/entities/cart_item_entity.dart';
@@ -8,6 +6,7 @@ import 'cart_product_model.dart';
 class OrderModel {
   final int id;
   final String userId;
+  final String fcmToken;
   final String name;
   final String email;
   final String country;
@@ -23,6 +22,7 @@ class OrderModel {
   OrderModel({
     required this.id,
     required this.userId,
+    required this.fcmToken,
     required this.name,
     required this.email,
     required this.country,
@@ -41,6 +41,7 @@ class OrderModel {
     return {
       'id': id,
       'userId': userId,
+      'fcmToken': fcmToken,
       'name': name,
       'email': email,
       'country': country,
@@ -62,6 +63,7 @@ class OrderModel {
     return OrderModel(
       id: map['id']?.toInt() ?? 0,
       userId: map['userId'] ?? '',
+      fcmToken: map['fcmToken'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       country: map['country'] ?? '',
@@ -82,6 +84,7 @@ class OrderModel {
   OrderEntity toEntity() => OrderEntity(
     id: id,
     userId: userId,
+    fcmToken: fcmToken,
     name: name,
     email: email,
     country: country,
@@ -96,10 +99,9 @@ class OrderModel {
     totalPrice: totalPrice,
   );
 
-  factory OrderModel.fromEntity(
-    OrderEntity entity,
-  ) => OrderModel(
+  factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
     id: entity.id,
+    fcmToken: entity.fcmToken,
     userId: entity.userId,
     name: entity.name,
     email: entity.email,

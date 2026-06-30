@@ -3,6 +3,7 @@ import 'cart_item_entity.dart';
 class OrderEntity {
   final int id;
   final String userId;
+  final String fcmToken;
   final String name;
   final String email;
   final String country;
@@ -19,6 +20,7 @@ class OrderEntity {
   OrderEntity({
     required this.id,
     required this.userId,
+    required this.fcmToken,
     required this.name,
     required this.email,
     required this.country,

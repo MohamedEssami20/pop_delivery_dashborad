@@ -19,6 +19,7 @@ class ChangeOrderStateCubit extends Cubit<ChangeOrderStateState> {
     required String orderState,
     required int orderId,
     required String userId,
+    required String userFCMToken,
   }) async {
     emit(ChangeOrderStateLoading());
     final result = await orderRepos.changeOrderState(
@@ -30,8 +31,7 @@ class ChangeOrderStateCubit extends Cubit<ChangeOrderStateState> {
     final cloudflareService = GetItService().getIt
         .get<CloudflareNotificationService>();
     cloudflareService.sendNotificationToToken(
-      token:
-          "cGauHQdWTBWk5aDLCKtf2F:APA91bGkBHPoPKEEEM7qgnkYIC4ZK-ORZbEEynU4KhM5yyPwOOb91HCK7JIO_iLND_MhWdf2jMRuKVIvCmO7pdQlPNgrArtOy1WKa0sss0EtnE02sVVcv3Q",
+      token: userFCMToken,
       title: "Order Updated",
       body: "Your order has been updated to $orderState",
     );

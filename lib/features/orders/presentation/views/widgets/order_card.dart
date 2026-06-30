@@ -109,6 +109,7 @@ class _OrderCardState extends State<OrderCard> with TickerProviderStateMixin {
                           orderState: nextOrderState(order.orderState),
                           orderId: order.id,
                           userId: order.userId,
+                          userFCMToken: order.fcmToken,
                         );
                       },
                       child: Text(
