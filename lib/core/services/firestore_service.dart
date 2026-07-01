@@ -103,4 +103,66 @@ class FirestoreService implements DataBaseService {
           .update(data);
     }
   }
+
+  // ── Sub-collection helpers ──────────────────────────────────────────────
+
+  @override
+  Future<void> addSubCollectionData({
+    required String mainPath,
+    required String mainDocumentId,
+    required String subPath,
+    required String subDocumentId,
+    required Map<String, dynamic> data,
+  }) async {
+    await firebaseFirestore
+        .collection(mainPath)
+        .doc(mainDocumentId)
+        .collection(subPath)
+        .doc(subDocumentId)
+        .set(data);
+  }
+
+  @override
+  Stream<List<Map<String, dynamic>>> getSubCollectionStream({
+    required String mainPath,
+    required String mainDocumentId,
+    required String subPath,
+    Map<String, dynamic>? query,
+  }) async* {
+    Query<Map<String, dynamic>> ref = firebaseFirestore
+        .collection(mainPath)
+        .doc(mainDocumentId)
+        .collection(subPath);
+
+    if (query != null) {
+      if (query['orderBy'] != null) {
+        ref = ref.orderBy(
+          query['orderBy'] as String,
+          descending: query['descending'] as bool? ?? false,
+        );
+      }
+      if (query['limit'] != null) {
+        ref = ref.limit(query['limit'] as int);
+      }
+    }
+
+    await for (final snapshot in ref.snapshots()) {
+      yield snapshot.docs.map((doc) => doc.data()).toList();
+    }
+  }
+
+  @override
+  Future<void> deleteSubCollectionData({
+    required String mainPath,
+    required String mainDocumentId,
+    required String subPath,
+    required String subDocumentId,
+  }) async {
+    await firebaseFirestore
+        .collection(mainPath)
+        .doc(mainDocumentId)
+        .collection(subPath)
+        .doc(subDocumentId)
+        .delete();
+  }
 }

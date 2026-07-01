@@ -6,6 +6,7 @@ import 'package:popo_delivery_dashboard/features/orders/presentation/manager/get
 import 'package:popo_delivery_dashboard/features/orders/presentation/views/widgets/order_view_body.dart';
 
 import '../../domain/repos/order_repos.dart';
+import 'package:popo_delivery_dashboard/features/notifications/domain/repos/notification_repo.dart';
 
 class OrdersView extends StatelessWidget {
   const OrdersView({super.key});
@@ -21,6 +22,7 @@ class OrdersView extends StatelessWidget {
         ),
         BlocProvider(create: (context) => ChangeOrderStateCubit(
           orderRepos: GetItService().getIt.get<OrderRepos>(),
+          notificationRepo: GetItService().getIt.get<NotificationRepo>(),
         )),
       ],
       child: Scaffold(

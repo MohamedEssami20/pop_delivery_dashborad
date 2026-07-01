@@ -14,6 +14,8 @@ abstract class BackendEndpoints {
   static const String productAds = "Ads";
   static const String orders = "Orders";
   static const String userOrders = "UserOrders";
+  static const String notifications = "notifications";
+  static const String userNotifications = "userNotifications";
   static const String cloudflareNotification =
       "https://bobo-delivery-food-notification.mohamedakaw.workers.dev";
 }
